@@ -33,6 +33,18 @@ const ButtonContainer = styled.section({
   justifyContent: "center",
 });
 
+const FooterContainer = styled.footer({
+  padding: "1rem 0rem",
+  textAlign: "center",
+  color: "#fff",
+  fontWeight: "700",
+  fontSize: "1.2rem",
+});
+
+const Link = styled.a({
+  color: "#fff",
+});
+
 export default class App extends Component {
   state = {
     postsToShow: [],
@@ -103,6 +115,14 @@ export default class App extends Component {
         <ButtonContainer>
           <Button onClick={handleLoadMoreMovies}>Load More</Button>
         </ButtonContainer>
+        <FooterContainer>
+          <p>
+            Made with ❤️ by{" "}
+            <Link target={"_blank"} href="https://github.com/Morteza355">
+              MORTEZA
+            </Link>
+          </p>
+        </FooterContainer>
       </Wrapper>
     );
   }

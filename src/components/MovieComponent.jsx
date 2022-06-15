@@ -1,14 +1,19 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-const MovieWrapper = styled.section({
-  border: "1px solid #0F3460",
-  boxShadow: "1px 1px 5px #2f2f2f",
-  borderRadius: ".2rem",
-  overflow: "hidden",
-  width: "15rem",
-  margin: ".5rem",
-});
+const MovieWrapper = styled.section(
+  {
+    border: "1px solid #0F3460",
+    boxShadow: "1px 1px 5px #2f2f2f",
+    borderRadius: ".2rem",
+    overflow: "hidden",
+    width: "15rem",
+    margin: ".5rem",
+    cursor: "pointer",
+    transition: "transform .3s",
+  },
+  { ":hover": { transform: "translateY(-5px)" } }
+);
 
 const Image = styled.img({
   width: "100%",

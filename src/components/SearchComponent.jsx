@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const SearchWrapper = styled.section({
   display: "flex",
   alignItems: "center",
-  justifyContent: "center",
+  justifyContent: "space-around",
   padding: "2rem",
 });
 
@@ -16,7 +16,8 @@ const Input = styled.input({
   fontSize: ".9rem",
   backgroundColor: "transparent",
   outline: "none",
-  letterSpacing: ".04rem",
+  letterSpacing: ".02rem",
+  width: "18rem",
 });
 
 const SearchComponent = ({ handleSearchInput }) => {
