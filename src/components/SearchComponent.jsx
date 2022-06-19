@@ -23,7 +23,10 @@ const Input = styled.input({
 const SearchComponent = ({ handleSearchInput }) => {
   return (
     <SearchWrapper>
-      <Input placeholder="Search" onChange={(e) => handleSearchInput(e)} />
+      <Input
+        placeholder="Search"
+        onChange={(e) => handleSearchInput(e.target.value)}
+      />
     </SearchWrapper>
   );
 };

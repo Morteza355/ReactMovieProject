@@ -10,8 +10,7 @@ const Wrapper = styled.section({
   justifyContent: "center",
 });
 
-const MoviesComponent = ({ handleSearchMovies }) => {
-  const movies = handleSearchMovies();
+const MoviesComponent = ({ movies }) => {
   return (
     <Wrapper>
       {movies.map((movie) => (
@@ -22,7 +21,7 @@ const MoviesComponent = ({ handleSearchMovies }) => {
 };
 
 MoviesComponent.propTypes = {
-  handleSearchMovies: PropTypes.func,
+  movies: PropTypes.array,
 };
 
 export default MoviesComponent;

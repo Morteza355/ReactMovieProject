@@ -1,8 +1,10 @@
 import { Component } from "react";
 import styled from "styled-components";
 
+import PreLoader from "./components/common/PreLoader";
 import MoviesComponent from "./components/MoviesComponents";
 import SearchComponent from "./components/SearchComponent";
+import SelectBox from "./components/SelectBox";
 
 const Wrapper = styled.section({
   backgroundColor: "#1A1A2E",
@@ -14,23 +16,6 @@ const Line = styled.section({
   width: "100%",
   height: "1px",
   backgroundColor: "#0F3460",
-});
-
-const Button = styled.button({
-  padding: ".7rem .9rem",
-  color: "#ffffff",
-  borderRadius: ".2rem",
-  backgroundColor: "#E94560",
-  border: "none",
-  cursor: "pointer",
-  margin: "1rem",
-});
-
-const ButtonContainer = styled.section({
-  width: "100%",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
 });
 
 const FooterContainer = styled.footer({
@@ -47,74 +32,72 @@ const Link = styled.a({
 
 export default class App extends Component {
   state = {
-    postsToShow: [],
     movies: [],
-    perPage: 20,
-    next: 20,
-    userInput: "",
+    isLoading: true,
   };
 
-  handleGetTopMovies = async () => {
-    const { state, handleSliceMovies } = this;
+  handleSearchMovies = async (userInput) => {
     const response = await fetch(
-      `https://imdb-api.com/en/API/Top250Movies/${process.env.REACT_APP_API_TOKEN}`
+      `https://imdb-api.com/en/API/SearchTitle/${process.env.REACT_APP_API_TOKEN}/${userInput}`
     );
     const data = await response.json();
     if (data.errorMessage) {
       console.error(data.errorMessage);
       return;
     } else {
-      this.setState({ movies: data.items });
-      handleSliceMovies(0, state.perPage);
+      this.setState({ movies: data.results, isLoading: false });
     }
   };
 
-  handleSliceMovies = (start, end) => {
-    const movies = [...this.state.movies];
-    const slicedDatas = movies.slice(start, end);
-    this.setState({ postsToShow: slicedDatas });
+  handleCallApi = async (topic) => {
+    const response = await fetch(
+      `https://imdb-api.com/en/API/${topic}/${process.env.REACT_APP_API_TOKEN}`
+    );
+    const data = await response.json();
+    if (data.errorMessage) {
+      console.error(data.errorMessage);
+      return;
+    } else {
+      this.setState({ movies: data.items, isLoading: false });
+    }
   };
 
-  handleLoadMoreMovies = () => {
-    const { next, perPage } = this.state;
-    this.handleSliceMovies(0, next + perPage);
-    this.setState((prevState) => ({
-      next: prevState.next + prevState.perPage,
-    }));
-  };
+  handleSelectBox = (value) => {
+    const { handleCallApi } = this;
 
-  handleUserInput = (e) => {
-    this.setState({ userInput: e.target.value.toLowerCase() });
-  };
-
-  handleSearchMovies = () => {
-    const { userInput, postsToShow } = this.state;
-    const userQuery = userInput.toLowerCase();
-    const filteredData = postsToShow.filter((movie) => {
-      if (userQuery === "") {
-        return movie;
-      } else {
-        return movie.title.toLowerCase().includes(userQuery);
+    switch (value) {
+      case "top250": {
+        handleCallApi("Top250Movies");
+        break;
       }
-    });
-    return filteredData;
+      case "popular": {
+        handleCallApi("MostPopularMovies");
+        break;
+      }
+      case "soon": {
+        handleCallApi("ComingSoon");
+        break;
+      }
+      default:
+        return;
+    }
   };
-
-  componentDidMount() {
-    this.handleGetTopMovies();
-  }
 
   render() {
-    const { handleUserInput, handleSearchMovies, handleLoadMoreMovies } = this;
+    const { handleSearchMovies, handleSelectBox } = this;
+    const { movies, isLoading } = this.state;
+
     return (
       <Wrapper>
-        <SearchComponent handleSearchInput={handleUserInput} />
+        <section style={{ display: "flex", alignItems: "center" }}>
+          <SearchComponent handleSearchInput={handleSearchMovies} />
+          <SelectBox handleSelectBox={handleSelectBox} />
+        </section>
+
         <Line />
-        <MoviesComponent handleSearchMovies={handleSearchMovies} />
+        <MoviesComponent movies={movies} />
+        <PreLoader isLoading={isLoading} />
         <Line />
-        <ButtonContainer>
-          <Button onClick={handleLoadMoreMovies}>Load More</Button>
-        </ButtonContainer>
         <FooterContainer>
           <p>
             Made with ❤️ by{" "}

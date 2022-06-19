@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const MovieWrapper = styled.section(
   {
@@ -80,12 +81,16 @@ const MovieComponent = ({ movie }) => {
           </ShowMore>
         </TitleWrapper>
         <InfoWrapper>
-          <small>Ranking : {movie.rank} </small>
-          <small>Rating : {movie.imDbRating} </small>
+          {movie.rank && <small>Ranking : {movie.rank} </small>}
+          {movie.imDbRating && <small>Rating : {movie.imDbRating} </small>}
         </InfoWrapper>
       </Section>
     </MovieWrapper>
   );
+};
+
+MovieComponent.propTypes = {
+  movie: PropTypes.object,
 };
 
 export default MovieComponent;
