@@ -89,7 +89,13 @@ export default class App extends Component {
 
     return (
       <Wrapper>
-        <section style={{ display: "flex", alignItems: "center" }}>
+        <section
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-evenly",
+          }}
+        >
           <SearchComponent handleSearchInput={handleSearchMovies} />
           <SelectBox handleSelectBox={handleSelectBox} />
         </section>
