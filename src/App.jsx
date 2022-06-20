@@ -38,7 +38,7 @@ export default class App extends Component {
 
   handleSearchMovies = async (userInput) => {
     const response = await fetch(
-      `https://imdb-api.com/en/API/SearchTitle/${process.env.REACT_APP_API_TOKEN}/${userInput}`
+      `https://imdb-api.com/en/API/SearchMovie/${process.env.REACT_APP_API_TOKEN}/${userInput}`
     );
     const data = await response.json();
     if (data.errorMessage) {
